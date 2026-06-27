@@ -12,8 +12,10 @@ services:
     networks:
       - app_network
 
-  php:
-    image: php:7.3-fpm
+php:
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./src:/var/www/html
     restart: unless-stopped
