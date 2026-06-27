@@ -1,7 +1,6 @@
 services:
   nginx:
     image: nginx:1.25
-    container_name: om-nginx
     ports:
       - "8082:80"
     volumes:
@@ -15,7 +14,6 @@ services:
 
   php:
     image: php:7.3-fpm
-    container_name: om-php-fpm
     volumes:
       - ./src:/var/www/html
     restart: unless-stopped
@@ -24,7 +22,6 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: om-mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -32,7 +29,7 @@ services:
       MYSQL_USER: app_user
       MYSQL_PASSWORD: app_pass
     ports:
-      - "3307:3306"   # changed: 3306 was taken on host
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
@@ -41,9 +38,8 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: om-phpmyadmin
     ports:
-      - "8083:80"   # changed: 8081 was taken on host
+      - "8083:80"
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
