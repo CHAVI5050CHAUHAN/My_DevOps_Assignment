@@ -44,7 +44,7 @@ services:
           "-h",
           "localhost",
           "-uroot",
-          "-p${MYSQL_ROOT_PASSWORD:-rootpass}",
+          "-p${MYSQL_ROOT_PASSWORD:-rootpass}"
         ]
       interval: 10s
       timeout: 5s
@@ -57,7 +57,7 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: om-phpmyadmin
     ports:
-      - "${PHPMYADMIN_PORT:-8080}:80"
+      - "${PHPMYADMIN_PORT:-8081}:80"
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
