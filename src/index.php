@@ -1,7 +1,7 @@
 <?php
 // sample.php
 
-$name = "Hariom SIR";
+$name = "Hariom SIR ji";
 
 echo "<h1>Hello, $name!</h1>";
 echo "<p>Welcome to PHP programming.</p>";
