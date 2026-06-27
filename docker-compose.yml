@@ -13,9 +13,7 @@ services:
       - app_network
 
   php:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: php:7.3-fpm
     volumes:
       - ./src:/var/www/html
     restart: unless-stopped
@@ -30,6 +28,8 @@ services:
       MYSQL_DATABASE: app_db
       MYSQL_USER: app_user
       MYSQL_PASSWORD: app_pass
+    ports:
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
