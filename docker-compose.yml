@@ -1,9 +1,3 @@
-FROM php:7.3-fpm
-
-RUN docker-php-ext-install mysqli pdo_mysql
-
-SAIKRUSHNA GOUDA
-10:55 AM
 version: "3.8"
 
 services:
