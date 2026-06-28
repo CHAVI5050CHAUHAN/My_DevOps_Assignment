@@ -16,16 +16,14 @@ mkdir -p "$BACKUP_DIR"
 BACKUP_FILE="$BACKUP_DIR/mysql_backup_${DATE}.sql"
 
 docker exec "$DB_CONTAINER" mysqldump \
+--no-tablespaces \
 -u"$DB_USER" \
 -p"$DB_PASSWORD" \
 "$DB_NAME" > "$BACKUP_FILE"
 
 gzip "$BACKUP_FILE"
 
-aws s3 cp \
-"${BACKUP_FILE}.gz" \
-"$S3_BUCKET/"
+aws s3 cp "${BACKUP_FILE}.gz" "$S3_BUCKET/"
 
 echo "Backup uploaded successfully"
-
 echo "${BACKUP_FILE}.gz"
