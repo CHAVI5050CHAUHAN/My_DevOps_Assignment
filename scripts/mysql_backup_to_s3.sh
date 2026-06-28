@@ -15,14 +15,24 @@ DB_PASSWORD="${DB_PASSWORD:-app_pass}"
 
 MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-rootpass}"
 
-USE_CONTAINER_DUMP="${USE_CONTAINER_DUMP:-true}"
+USE_CONTAINER_DUMP="${USE_CONTAINER_DUMP:-false}"
 MYSQL_CONTAINER="${MYSQL_CONTAINER:-om-mysql}"
 
 BACKUP_DIR="${BACKUP_DIR:-./backups}"
 
 #############################################
-# Create Backup Directory
+# Validation
 #############################################
+
+if [[ -z "$DB_NAME" ]]; then
+    echo "ERROR: DB_NAME is empty"
+    exit 1
+fi
+
+if [[ -z "$DB_USER" ]]; then
+    echo "ERROR: DB_USER is empty"
+    exit 1
+fi
 
 mkdir -p "$BACKUP_DIR"
 
@@ -30,19 +40,22 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
 BACKUP_FILE="${BACKUP_DIR}/mysql_backup_${DB_NAME}_${TIMESTAMP}.sql.gz"
 
-echo "======================================="
-echo "Starting MySQL Backup"
-echo "Database  : $DB_NAME"
-echo "Backup    : $BACKUP_FILE"
-echo "======================================="
+echo "================================="
+echo "MySQL Backup Started"
+echo "Database : $DB_NAME"
+echo "Host     : $DB_HOST"
+echo "Port     : $DB_PORT"
+echo "Mode     : $USE_CONTAINER_DUMP"
+echo "Backup   : $BACKUP_FILE"
+echo "================================="
 
 #############################################
-# Backup Using Docker Container
+# Docker Backup
 #############################################
 
 if [[ "$USE_CONTAINER_DUMP" == "true" ]]; then
 
-    echo "Using Docker container backup mode"
+    echo "Using Docker backup mode"
 
     DUMP_CMD="
         MYSQL_PWD=\"$DB_PASSWORD\" mysqldump \
@@ -58,7 +71,8 @@ if [[ "$USE_CONTAINER_DUMP" == "true" ]]; then
     "
 
     if docker exec -i "$MYSQL_CONTAINER" sh -c "$DUMP_CMD" \
-        | gzip > "$BACKUP_FILE"; then
+        | gzip > "$BACKUP_FILE"
+    then
 
         echo "Backup completed using application user"
 
@@ -83,12 +97,12 @@ if [[ "$USE_CONTAINER_DUMP" == "true" ]]; then
         docker exec -i "$MYSQL_CONTAINER" sh -c "$ROOT_CMD" \
             | gzip > "$BACKUP_FILE"
 
-        echo "Backup completed using root user"
+        echo "Backup completed using root"
 
     fi
 
 #############################################
-# Backup Using Local mysqldump
+# Local mysqldump Backup
 #############################################
 
 else
@@ -114,7 +128,7 @@ else
 fi
 
 #############################################
-# Validation
+# Verification
 #############################################
 
 if [[ ! -s "$BACKUP_FILE" ]]; then
@@ -123,11 +137,11 @@ if [[ ! -s "$BACKUP_FILE" ]]; then
 fi
 
 echo
-echo "Backup successful"
-echo "Location : $BACKUP_FILE"
+echo "Backup completed successfully"
+echo "File : $BACKUP_FILE"
 
 ls -lh "$BACKUP_FILE"
 
-echo "======================================="
-echo "Backup completed successfully"
-echo "======================================="
+echo "================================="
+echo "Done"
+echo "================================="
