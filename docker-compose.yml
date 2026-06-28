@@ -1,3 +1,11 @@
+FROM php:7.3-fpm
+
+RUN docker-php-ext-install mysqli pdo_mysql
+
+SAIKRUSHNA GOUDA
+10:55 AM
+version: "3.8"
+
 services:
   nginx:
     image: nginx:1.25
@@ -14,10 +22,14 @@ services:
       - app_network
 
   php:
-    image: php:7.3-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: om-php:7.3
     container_name: om-php-fpm
     volumes:
       - ./src:/var/www/html
+    working_dir: /var/www/html
     restart: unless-stopped
     networks:
       - app_network
@@ -36,16 +48,15 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "localhost",
-          "-uroot",
-          "-p${MYSQL_ROOT_PASSWORD:-rootpass}",
-        ]
+      test: [
+        "CMD",
+        "mysqladmin",
+        "ping",
+        "-h",
+        "localhost",
+        "-uroot",
+        "-p${MYSQL_ROOT_PASSWORD:-rootpass}"
+      ]
       interval: 10s
       timeout: 5s
       retries: 10
