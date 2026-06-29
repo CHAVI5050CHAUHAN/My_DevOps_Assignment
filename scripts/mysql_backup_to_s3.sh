@@ -11,14 +11,15 @@ fi
 
 DATE="$(date +%Y%m%d_%H%M%S)"
 
-DB_CONTAINER="${DB_CONTAINER:-om-mysql}"
-DB_NAME="${DB_NAME:-${MYSQL_DATABASE:-app_db}}"
-DB_USER="${DB_USER:-${MYSQL_USER:-app_user}}"
-DB_PASSWORD="${DB_PASSWORD:-${MYSQL_PASSWORD:-app_pass}}"
+DB_CONTAINER="om-mysql"
+DB_NAME="app_db"
+DB_USER="app_user"
+DB_PASSWORD="app_pass"
 
-BACKUP_DIR="${BACKUP_DIR:-./backups}"
-FILE_PREFIX="${FILE_PREFIX:-mysql_backup}"
-S3_URI="${S3_URI:-}"
+BACKUP_DIR="./backups"
+FILE_PREFIX="mysql_backup"
+
+S3_URI="s3://devops-mysql-backup-unique-name/mysql-backups/"
 
 if [[ -z "$S3_URI" ]]; then
 	echo "Error: S3_URI is required (example: s3://your-bucket/mysql-backups)" >&2
