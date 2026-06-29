@@ -40,6 +40,9 @@ pipeline {
         stage('Database Backup') {
             steps {
                 sh '''
+                    echo "S3_URI=$S3_URI"
+                    env | grep S3
+                    
                     chmod +x scripts/mysql_backup_to_s3.sh
                     ./scripts/mysql_backup_to_s3.sh
                 '''
