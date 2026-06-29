@@ -35,6 +35,15 @@ pipeline {
                 sh 'docker compose -p "$PROJECT_NAME" -f "$COMPOSE_FILE" ps'
             }
         }
+
+        stage('Database Backup') {
+            steps {
+                sh '''
+                    chmod +x scripts/mysql_backup.sh
+                    ./scripts/mysql_backup.sh
+                '''
+            }
+        }
     }
 
     post {
