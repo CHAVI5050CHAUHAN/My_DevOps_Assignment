@@ -36,6 +36,15 @@ pipeline {
             }
         }
 
+        stage('Run IP Script') {
+            steps {
+                sh '''
+                    chmod +x scripts/ip_script.sh
+                    ./scripts/ip_script.sh
+                '''
+            }
+        }
+
         stage('Database Backup') {
             steps {
                 sh '''
