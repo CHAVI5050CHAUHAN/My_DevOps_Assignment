@@ -9,7 +9,7 @@ DB_PASSWORD="app_pass"
 
 BACKUP_DIR="./backups"
 
-S3_BUCKET="s3://my-backup-bucket/mysql"
+S3_BUCKET="s3://devops-mysql-backup-unique-name/mysql-backups/"
 
 mkdir -p "$BACKUP_DIR"
 
