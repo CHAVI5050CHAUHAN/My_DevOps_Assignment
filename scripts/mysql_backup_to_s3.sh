@@ -10,7 +10,7 @@ DB_PASSWORD="${DB_PASSWORD:-${MYSQL_PASSWORD:-app_pass}}"
 
 BACKUP_DIR="${BACKUP_DIR:-./backups}"
 FILE_PREFIX="${FILE_PREFIX:-mysql_backup}"
-S3_URI="${S3_URI:-}"
+S3_URI="${S3_URI:-s3://devops-mysql-backup-unique-name/mysql-backups/}"
 
 if [[ -z "$S3_URI" ]]; then
 	echo "Error: S3_URI is required (example: s3://your-bucket/mysql-backups)" >&2
