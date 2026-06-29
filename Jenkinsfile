@@ -9,7 +9,6 @@ pipeline {
     environment {
         COMPOSE_FILE = 'docker-compose.yml'
         PROJECT_NAME = 'om-stack'
-        S3_URI = 's3://devops-mysql-backup-unique-name/mysql-backups'
     }
 
     stages {
