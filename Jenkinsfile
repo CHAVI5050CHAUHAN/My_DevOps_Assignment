@@ -39,8 +39,8 @@ pipeline {
         stage('Database Backup') {
             steps {
                 sh '''
-                    chmod +x scripts/mysql_backup.sh
-                    ./scripts/mysql_backup.sh
+                    chmod +x scripts/mysql_backup_to_s3.sh
+                    ./scripts/mysql_backup_to_s3.sh
                 '''
             }
         }
