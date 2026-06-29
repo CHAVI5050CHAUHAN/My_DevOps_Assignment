@@ -36,15 +36,6 @@ pipeline {
             }
         }
 
-        stage('Run IP Script') {
-            steps {
-                sh '''
-                    chmod +x scripts/extract_unique_ips.sh
-                    ./scripts/extract_unique_ips.sh
-                '''
-            }
-        }
-
         stage('Database Backup') {
             steps {
                 sh '''
